@@ -9,6 +9,7 @@
 import React from 'react';
 import {
   StyleSheet,
+  LogBox
 } from 'react-native';
 
 // provider, store
@@ -24,6 +25,7 @@ import ChooseOption from './src/shared/pages/choose-option/index';
 import SellerSignUp from './src/sell-groceries/pages/sign-up/index';
 import SellerSignIn from './src/sell-groceries/pages/sign-in/index';
 import SellerDashboard from './src/sell-groceries/pages/seller-dashboard/index';
+LogBox.ignoreLogs(['Setting a timer for a long period of time'])
 const Stack = createStackNavigator();
 const forFade = ({ current }) => ({
   cardStyle: {

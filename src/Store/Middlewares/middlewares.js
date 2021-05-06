@@ -1,7 +1,8 @@
 import { ActionTypes } from '../Actions/actions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import firebase from 'firebase';
 let redirect = {};
+let database = firebase.database().ref();
 async function storeData(data) {
     try {
         await AsyncStorage.setItem('user',
@@ -39,7 +40,7 @@ export function resetStoredData() {
 export function logOut() {
     return dispatch => {
         AsyncStorage.clear().then(() => {
-         
+
             redirect.navigate('welcome');
         })
 
@@ -49,7 +50,7 @@ export function logOut() {
 
 export function SignUpTestFunction(isOpen) {
     return dispatch => {
-
+        database.child('test').push({ name: 'noman' })
         dispatch({ type: ActionTypes.SIGN_UP_INIT, payload: isOpen })
 
 
@@ -57,6 +58,7 @@ export function SignUpTestFunction(isOpen) {
 }
 
 export function setNavigationProps(navigation) {
+    console.log('navigation:=>', navigation)
     return dispatch => {
         redirect = navigation;
         dispatch({ type: ActionTypes.NAVIGATION_PROPS, payload: navigation })
