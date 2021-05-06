@@ -9,6 +9,11 @@ import {
     TouchableOpacity,
     Dimensions
 } from 'react-native';
+// import 'connect' to connect the redux with screens
+import { connect } from 'react-redux';
+// import middlewares functions
+import { SignUpTestFunction } from '../../../Store/Middlewares/middlewares';
+
 const { width, height, fontScale } = Dimensions.get('window')
 import TextInput from '../../../shared/components/input-field/index';
 import Button from '../../../shared/components/button/index';
@@ -100,7 +105,7 @@ function SellerSignUp(props) {
                         <Button
                             title={"Sign Up"}
                             color={'#687089'}
-                            onPress={() => null}
+                            onPress={() => props.SignUpTestFunctionAction('Init!!!')}
                         />
                         <View style={styles.alreadyAccount}>
                             <Text style={styles.alreadyAccountText}>Already have an account?</Text>
@@ -188,5 +193,16 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     }
 });
+function mapStateToProps(state) {
+    console.log('Redux State - SignUp Screen', state.root.signup_screen)
+    return {
+        signupScreen: state.root.signup_screen
+    }
+}
+function mapDispatchToProps(dispatch) {
+    return ({
+        SignUpTestFunctionAction: (param) => { dispatch(SignUpTestFunction(param)) },
 
-export default SellerSignUp;
+    })
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SellerSignUp);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     SafeAreaView,
     ScrollView,
@@ -10,10 +10,21 @@ import {
     Dimensions
 } from 'react-native';
 const { width, height, fontScale } = Dimensions.get('window')
-import Button from '../../components/button/index'
+// import middlewares function
+import { setNavigationProps } from '../../../Store/Middlewares/middlewares';
+
+// import 'connect' to connet the redux with screens
+import { connect } from 'react-redux';
+
+// import components
+import Button from '../../components/button/index';
+
 function ChooseOption(props) {
 
     const { navigation } = props;
+    useEffect(() => {
+        props.setNavigationPropsAction(navigation)
+    }, []);
     return (
         <SafeAreaView style={styles.optionsContainer}>
             <ScrollView
@@ -74,5 +85,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 });
-
-export default ChooseOption;
+function mapDispatchToProps(dispatch) {
+    return ({
+        setNavigationPropsAction: (navigation) => { dispatch(setNavigationProps(navigation)) },
+    })
+}
+export default connect(null, mapDispatchToProps)(ChooseOption);
