@@ -8,17 +8,12 @@
 
 import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
   StyleSheet,
-  Text,
-  useColorScheme,
-  View,
 } from 'react-native';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+// provider, store
+import { Provider } from 'react-redux';
+import store from './src/Store/index';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -40,29 +35,31 @@ function App() {
 
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
 
-        <Stack.Screen name="chooseOption" component={ChooseOption} options={{ headerShown: false, cardStyleInterpolator: forFade, }} />
-        <Stack.Screen name="sellerSignUp" component={SellerSignUp} options={{
-          headerTintColor: 'white', headerTitle: 'Sign Up', headerTitleAlign: 'center', headerStyle: {
-            backgroundColor: '#687089',
-            elevation: 0,
-            shadowOpacity: 0,
-          }, cardStyleInterpolator: forFade
-        }} />
-        <Stack.Screen name="sellerSignIn" component={SellerSignIn} options={{
-          headerTintColor: 'white', headerTitle: 'Sign In', headerTitleAlign: 'center', headerStyle: {
-            backgroundColor: '#687089',
-            elevation: 0,
-            shadowOpacity: 0,
-          }, cardStyleInterpolator: forFade
-        }} />
-        <Stack.Screen name="sellerDashboard" component={SellerDashboard} options={{ headerShown: false, cardStyleInterpolator: forFade, }} />
+          <Stack.Screen name="chooseOption" component={ChooseOption} options={{ headerShown: false, cardStyleInterpolator: forFade, }} />
+          <Stack.Screen name="sellerSignUp" component={SellerSignUp} options={{
+            headerTintColor: 'white', headerTitle: 'Sign Up', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#687089',
+              elevation: 0,
+              shadowOpacity: 0,
+            }, cardStyleInterpolator: forFade
+          }} />
+          <Stack.Screen name="sellerSignIn" component={SellerSignIn} options={{
+            headerTintColor: 'white', headerTitle: 'Sign In', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#687089',
+              elevation: 0,
+              shadowOpacity: 0,
+            }, cardStyleInterpolator: forFade
+          }} />
+          <Stack.Screen name="sellerDashboard" component={SellerDashboard} options={{ headerShown: false, cardStyleInterpolator: forFade, }} />
 
 
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
