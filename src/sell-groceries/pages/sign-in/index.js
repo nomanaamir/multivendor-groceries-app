@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     SafeAreaView,
     ScrollView,
@@ -9,12 +9,31 @@ import {
     TouchableOpacity,
     Dimensions
 } from 'react-native';
-const { width, height, fontScale } = Dimensions.get('window')
+// import 'connect' to connect the redux with screens
+import { connect } from 'react-redux';
+// import middlewares functions
+import { SellerAccountSignIn } from '../../../Store/Middlewares/middlewares';
+
+const { width, height, fontScale } = Dimensions.get('window');
 import Button from '../../../shared/components/button/index';
 import TextInput from '../../../shared/components/input-field/index';
 function SellerSignIn(props) {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const { navigation } = props;
+
+    const sellerSignIn = () => {
+
+        if (
+            email === '' ||
+            password === ''
+        ) {
+            alert('All fields required!')
+        } else {
+            props.SellerAccountSignInAction(email, password)
+        }
+    }
     return (
         // safe area and scroll view for responsive height and width for landscape mode
         <SafeAreaView style={styles.container}>
@@ -38,21 +57,21 @@ function SellerSignIn(props) {
                                 placeholder={'Email'}
                                 keyboardType="email-address"
                                 secureTextEntry={false}
-                                onChangeText={(text) => console.log(text)}
+                                onChangeText={(text) => setEmail(text)}
                             />
 
                             <TextInput
                                 placeholder={'Password'}
                                 keyboardType="default"
                                 secureTextEntry={true}
-                                onChangeText={(text) => console.log(text)}
+                                onChangeText={(text) => setPassword(text)}
                             />
                             {/* Button Child component in which we are sending details of button via props */}
                             <Button
-                                loader={false}
+                                loader={props.isSellerSignedIn}
                                 title={"Sign In"}
                                 color={'#687089'}
-                                onPress={() => navigation.navigate('sellerDashboard')}
+                                onPress={() => sellerSignIn()}
                             />
                         </View>
                     </View>
@@ -89,4 +108,15 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SellerSignIn;
+function mapStateToProps(state) {
+    return {
+        isSellerSignedIn: state.root.is_seller_signed_in
+    }
+}
+function mapDispatchToProps(dispatch) {
+    return ({
+        SellerAccountSignInAction: (email, password) => { dispatch(SellerAccountSignIn(email, password)) },
+
+    })
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SellerSignIn);

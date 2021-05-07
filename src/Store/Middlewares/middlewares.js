@@ -73,6 +73,21 @@ export function SellerAccountSignUp(email, password, seller) {
     }
 }
 
+export function SellerAccountSignIn(email, password) {
+    return dispatch => {
+        dispatch({ type: ActionTypes.SELLER_SIGN_IN_SUCCESS, payload: true })
+        auth.signInWithEmailAndPassword(email, password).then((ev) => {
+            dispatch(GetSellerStoreDetails(ev.user.uid))
+            dispatch({ type: ActionTypes.SELLER_SIGN_IN_SUCCESS, payload: false })
+        }).catch(error => {
+            dispatch({ type: ActionTypes.SELLER_SIGN_IN_SUCCESS, payload: false })
+
+            alert(error.message)
+        })
+
+
+    }
+}
 
 export function SetSellerStoreDetails(sellerUID, seller) {
     return dispatch => {
