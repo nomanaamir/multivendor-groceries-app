@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     SafeAreaView,
     ScrollView,
@@ -19,7 +19,10 @@ import {
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import { NavigationContainer } from '@react-navigation/native';
+// import 'connect' to connect the redux with screens
+import { connect } from 'react-redux';
+// import middlewares functions
+import { RetrieveDataAssyncStorage, LogOut } from '../../../Store/Middlewares/middlewares';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -31,9 +34,12 @@ const forFade = ({ current }) => ({
         opacity: current.progress,
     },
 });
-function SellerDashboard() {
 
+function SellerDashboard(props) {
 
+    useEffect(() => {
+        props.RetrieveDataAssyncStorageAction()
+    }, []);
 
     return (
         <Stack.Navigator>
@@ -46,13 +52,12 @@ function SellerDashboard() {
                 headerLeft: () => null,
                 headerRight: () => (
                     <Button
-
-                        onPress={() => null}
+                        onPress={() => props.LogOutAction()}
                         title="log out"
                         color="#FF4500"
                     />
                 ),
-                headerTintColor: 'white', headerTitle: 'XYZ STORE', headerTitleAlign: 'left', headerStyle: {
+                headerTintColor: 'white', headerTitle: props.sellerStore?.storeName, headerTitleAlign: 'left', headerStyle: {
                     backgroundColor: '#2196f3',
                     elevation: 0,
                     shadowOpacity: 0,
@@ -61,7 +66,7 @@ function SellerDashboard() {
 
             <Stack.Screen name="addNewProduct" component={AddNewProduct} options={{
 
-                headerTintColor: 'white', headerTitle: 'XYZ STORE', headerTitleAlign: 'left', headerStyle: {
+                headerTintColor: 'white', headerTitle: props.sellerStore?.storeName, headerTitleAlign: 'left', headerStyle: {
                     backgroundColor: '#2196f3',
                     elevation: 0,
                     shadowOpacity: 0,
@@ -75,5 +80,16 @@ function SellerDashboard() {
 };
 
 
-
-export default SellerDashboard;
+function mapStateToProps(state) {
+    console.log('Redux State - Seller Dashboard Screen', state.root.async_storage_data?.data?.store)
+    return {
+        sellerStore: state.root.async_storage_data?.data?.store
+    }
+}
+function mapDispatchToProps(dispatch) {
+    return ({
+        RetrieveDataAssyncStorageAction: () => { dispatch(RetrieveDataAssyncStorage()) },
+        LogOutAction: () => { dispatch(LogOut()) }
+    })
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SellerDashboard);

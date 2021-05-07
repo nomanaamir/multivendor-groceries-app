@@ -7,11 +7,12 @@ import {
     useColorScheme,
     View,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    ActivityIndicator
 } from 'react-native';
 const { width, height, fontScale } = Dimensions.get('window')
 // import middlewares function
-import { setNavigationProps } from '../../../Store/Middlewares/middlewares';
+import { setNavigationProps, RetrieveDataAssyncStorage } from '../../../Store/Middlewares/middlewares';
 
 // import 'connect' to connet the redux with screens
 import { connect } from 'react-redux';
@@ -23,14 +24,23 @@ function ChooseOption(props) {
 
     const { navigation } = props;
     useEffect(() => {
-        props.setNavigationPropsAction(navigation)
+        props.setNavigationPropsAction(navigation);
+        props.RetrieveDataAssyncStorageAction();
+       
     }, []);
+
+    useEffect(() => {
+        if (props.isSeller) {
+            navigation.navigate('sellerDashboard')
+        }
+    }, [props.isSeller]);
     return (
         <SafeAreaView style={styles.optionsContainer}>
             <ScrollView
                 contentInsetAdjustmentBehavior="automatic"
             >
                 <View style={styles.chooseOptionContainer}>
+
                     <View style={styles.chooseOptionContainerHeader}>
                         <Text style={styles.heading}>
                             What do you want to do?
@@ -41,22 +51,38 @@ function ChooseOption(props) {
                     </View>
 
                     <View style={styles.chooseOptionContainerBody}>
-                        <Button
-                            title={"I want to Buy Groceries"}
-                            color={'#687089'}
-                            onPress={() => null}
-                        />
-                        <Button
-                            title={"I want to Sell Groceries"}
-                            color={'#687089'}
-                            onPress={() => navigation.navigate('sellerSignUp')}
-                        />
-                        <Button
-                            title={"Administration Login"}
-                            color={'#687089'}
-                            onPress={() => null}
-                        />
+
+                        {
+                            props.isSeller === false ?
+                                <>
+
+                                    <Button
+                                        loader={false}
+                                        title={"I want to Buy Groceries"}
+                                        color={'#687089'}
+                                        onPress={() => null}
+                                    />
+                                    <Button
+                                        loader={false}
+                                        title={"I want to Sell Groceries"}
+                                        color={'#687089'}
+                                        onPress={() => navigation.navigate('sellerSignUp')}
+                                    />
+                                    <Button
+                                        loader={false}
+                                        title={"Administration Login"}
+                                        color={'#687089'}
+                                        onPress={() => null}
+                                    />
+                                </>
+                                :
+                                <ActivityIndicator size={85} color="#687089" />
+
+                        }
+
                     </View>
+
+
                 </View>
             </ScrollView>
         </SafeAreaView >
@@ -85,9 +111,17 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 });
+
+function mapStateToProps(state) {
+    console.log('Redux State - Choose option Screen', state.root.async_storage_data?.data?.isLoggedIn)
+    return {
+        isSeller: state.root.async_storage_data?.data?.isLoggedIn
+    }
+}
 function mapDispatchToProps(dispatch) {
     return ({
         setNavigationPropsAction: (navigation) => { dispatch(setNavigationProps(navigation)) },
+        RetrieveDataAssyncStorageAction: () => { dispatch(RetrieveDataAssyncStorage()) },
     })
 }
-export default connect(null, mapDispatchToProps)(ChooseOption);
+export default connect(mapStateToProps, mapDispatchToProps)(ChooseOption);

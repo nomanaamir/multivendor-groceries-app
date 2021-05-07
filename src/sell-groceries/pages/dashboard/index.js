@@ -8,11 +8,14 @@ import {
     TouchableOpacity,
     Dimensions
 } from 'react-native';
+// import 'connect' to connect the redux with screens
+import { connect } from 'react-redux';
+// import middlewares functions
+import { RetrieveDataAssyncStorage, LogOut } from '../../../Store/Middlewares/middlewares';
 const { width, height, fontScale } = Dimensions.get('window')
 
 function Dashboard(props) {
     const { navigation } = props;
-
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView
@@ -24,7 +27,7 @@ function Dashboard(props) {
 
                         </View>
                         <Text style={styles.storeInfoName}>
-                            XYZ Store
+                            {props.sellerStore?.storeName}
                         </Text>
                     </View>
 
@@ -35,7 +38,7 @@ function Dashboard(props) {
                         </Text>
 
                         <View style={styles.plusBtnAlign}>
-                            <TouchableOpacity style={styles.plusBtn} onPress={()=> navigation.navigate('addNewProduct')}>
+                            <TouchableOpacity style={styles.plusBtn} onPress={() => navigation.navigate('addNewProduct')}>
                                 <Text style={styles.plusBtnText}>
                                     +
                                 </Text>
@@ -97,5 +100,15 @@ const styles = StyleSheet.create({
     }
 
 });
-
-export default Dashboard;
+function mapStateToProps(state) {
+    console.log('Redux State - Dashboard Screen', state.root.async_storage_data?.data?.store)
+    return {
+        sellerStore: state.root.async_storage_data?.data?.store
+    }
+}
+function mapDispatchToProps(dispatch) {
+    return ({
+        RetrieveDataAssyncStorageAction: () => { dispatch(RetrieveDataAssyncStorage()) },
+    })
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

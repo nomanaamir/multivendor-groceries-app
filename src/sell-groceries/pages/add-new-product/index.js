@@ -75,6 +75,7 @@ function AddNewProduct(props) {
                         <Button
                             title={"Submit Details"}
                             color={'#2196f3'}
+                            loader={false}
                             onPress={() => null}
                         />
 

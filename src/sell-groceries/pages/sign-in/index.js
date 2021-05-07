@@ -33,7 +33,7 @@ function SellerSignIn(props) {
 
                     <View style={styles.sellerSignInContainerBody}>
                         <View style={styles.form}>
-                             {/* TextInput Child component in which we are sending details of input field via props */}
+                            {/* TextInput Child component in which we are sending details of input field via props */}
                             <TextInput
                                 placeholder={'Email'}
                                 keyboardType="email-address"
@@ -47,8 +47,9 @@ function SellerSignIn(props) {
                                 secureTextEntry={true}
                                 onChangeText={(text) => console.log(text)}
                             />
-                             {/* Button Child component in which we are sending details of button via props */}
+                            {/* Button Child component in which we are sending details of button via props */}
                             <Button
+                                loader={false}
                                 title={"Sign In"}
                                 color={'#687089'}
                                 onPress={() => navigation.navigate('sellerDashboard')}

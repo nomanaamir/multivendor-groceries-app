@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     SafeAreaView,
     ScrollView,
@@ -12,7 +12,7 @@ import {
 // import 'connect' to connect the redux with screens
 import { connect } from 'react-redux';
 // import middlewares functions
-import { SignUpTestFunction } from '../../../Store/Middlewares/middlewares';
+import { SellerAccountSignUp } from '../../../Store/Middlewares/middlewares';
 
 const { width, height, fontScale } = Dimensions.get('window')
 import TextInput from '../../../shared/components/input-field/index';
@@ -20,12 +20,52 @@ import Button from '../../../shared/components/button/index';
 
 function SellerSignUp(props) {
     const { navigation } = props;
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [storeName, setStoreName] = useState('');
+    const [completeAddress, setCompleteAddress] = useState('');
+    const [openUntil, setOpenUntil] = useState('');
+
     const timings = [
         '6:00 PM',
         '9:00 PM',
         '11:00 PM',
         '24/7',
     ]
+    const activeBtn = {
+        backgroundColor: '#008900'
+    }
+    const sellerSignUp = () => {
+        const seller = {
+            email,
+            storeName,
+            completeAddress,
+            openUntil
+        }
+        if (
+            email === '' ||
+            password === '' ||
+            confirmPassword === '' ||
+            storeName === '' ||
+            completeAddress === '' ||
+            openUntil === ''
+        ) {
+            alert('All fields required!')
+        } else {
+            if (password !== confirmPassword) {
+                alert('Password must be matched!')
+            } else {
+                props.SellerAccountSignUpAction(email, password, seller)
+            }
+        }
+        console.log('email', email);
+        console.log('password', password);
+        console.log('confirmPassword', confirmPassword);
+        console.log('storeName', storeName);
+        console.log('completeAddress', completeAddress);
+        console.log('openUntil', openUntil);
+    }
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView
@@ -44,35 +84,35 @@ function SellerSignUp(props) {
                                 placeholder={'Email'}
                                 keyboardType="email-address"
                                 secureTextEntry={false}
-                                onChangeText={(text) => console.log(text)}
+                                onChangeText={(text) => setEmail(text)}
                             />
 
                             <TextInput
                                 placeholder={'Choose Password'}
                                 keyboardType="default"
                                 secureTextEntry={true}
-                                onChangeText={(text) => console.log(text)}
+                                onChangeText={(text) => setPassword(text)}
                             />
 
                             <TextInput
                                 placeholder={'Repeat Password'}
                                 keyboardType="default"
                                 secureTextEntry={true}
-                                onChangeText={(text) => console.log(text)}
+                                onChangeText={(text) => setConfirmPassword(text)}
                             />
 
                             <TextInput
                                 placeholder={'Your Store Name'}
                                 keyboardType="default"
                                 secureTextEntry={false}
-                                onChangeText={(text) => console.log(text)}
+                                onChangeText={(text) => setStoreName(text)}
                             />
 
                             <TextInput
                                 placeholder={'Your Complete address'}
                                 keyboardType="default"
                                 secureTextEntry={false}
-                                onChangeText={(text) => console.log(text)}
+                                onChangeText={(text) => setCompleteAddress(text)}
                             />
                             {/* open until timings options */}
                             <View style={styles.openUntil}>
@@ -82,7 +122,7 @@ function SellerSignUp(props) {
                                     {
                                         timings.map((item, index) => {
                                             return (
-                                                <TouchableOpacity key={index} onPress={() => null} style={styles.timingsRowBTn}>
+                                                <TouchableOpacity key={index} onPress={() => setOpenUntil(item)} style={[styles.timingsRowBTn, openUntil === item ? activeBtn : null]}>
                                                     <Text style={styles.timingsRowBTnText}>
                                                         {item}
                                                     </Text>
@@ -103,9 +143,11 @@ function SellerSignUp(props) {
                             </Text>
                         {/* Button Child component in which we are sending details of button via props */}
                         <Button
+                            loader={false}
                             title={"Sign Up"}
                             color={'#687089'}
-                            onPress={() => props.SignUpTestFunctionAction('Init!!!')}
+                            loader={props.isSellerSignedUp}
+                            onPress={() => sellerSignUp()}
                         />
                         <View style={styles.alreadyAccount}>
                             <Text style={styles.alreadyAccountText}>Already have an account?</Text>
@@ -194,14 +236,14 @@ const styles = StyleSheet.create({
     }
 });
 function mapStateToProps(state) {
-    console.log('Redux State - SignUp Screen', state.root.signup_screen)
+    console.log('Redux State - SignUp Screen', state.root.is_seller_signed_up)
     return {
-        signupScreen: state.root.signup_screen
+        isSellerSignedUp: state.root.is_seller_signed_up
     }
 }
 function mapDispatchToProps(dispatch) {
     return ({
-        SignUpTestFunctionAction: (param) => { dispatch(SignUpTestFunction(param)) },
+        SellerAccountSignUpAction: (email, password, seller) => { dispatch(SellerAccountSignUp(email, password, seller)) },
 
     })
 }

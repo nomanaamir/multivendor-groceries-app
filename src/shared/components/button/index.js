@@ -3,20 +3,26 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    ActivityIndicator
 } from 'react-native';
 const { width, height, fontScale } = Dimensions.get('window')
 
 function Button(props) {
-    const { title, color, onPress } = props
+    const { title, color, loader, onPress } = props
     const bgColor = {
         backgroundColor: color
     }
     return (
-        <TouchableOpacity style={[styles.button, bgColor]} onPress={onPress}>
-            <Text style={styles.buttonText}>
-                {title}
-            </Text>
+        <TouchableOpacity style={[styles.button, bgColor]} onPress={onPress} disabled={loader}>
+            {
+                loader === false ?
+                    <Text style={styles.buttonText}>
+                        {title}
+                    </Text>
+                    :
+                    <ActivityIndicator size={25} color="white" />
+            }
         </TouchableOpacity>
     );
 };
