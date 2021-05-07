@@ -99,6 +99,31 @@ export function SetSellerStoreDetails(sellerUID, seller) {
     }
 }
 
+export function SellerAddNewProduct(sellerUID, product) {
+    return dispatch => {
+        database.child(`stores/${sellerUID}/products`).push(product).then(() => {
+            redirect.navigate('dashboard')
+
+        })
+
+    }
+}
+
+export function GetCurrentSellerProducts(sellerUID) {
+    return dispatch => {
+        dispatch({ type: ActionTypes.GET_CURRENT_SELLER_PRODUCTS, payload: { products: {}, loading: true } })
+        database.child(`stores/${sellerUID}/products`).on('value', (ev) => {
+            if (ev.val()) {
+                dispatch({ type: ActionTypes.GET_CURRENT_SELLER_PRODUCTS, payload: { products: ev.val(), loading: false } })
+            } else {
+                dispatch({ type: ActionTypes.GET_CURRENT_SELLER_PRODUCTS, payload: { products: {}, loading: false } })
+
+            }
+        })
+
+    }
+}
+
 export function GetSellerStoreDetails(sellerUID) {
     return dispatch => {
         database.child(`stores/${sellerUID}`).on('value', ev => {
