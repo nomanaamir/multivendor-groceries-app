@@ -38,6 +38,7 @@ function Dashboard(props) {
 
                     <View style={styles.storeBody}>
 
+                        {/* if there are no products, then 'No item message' will be shown */}
                         {
                             props.currentSellerProducts.length === 0 ?
                                 <Text style={styles.noItemText}>
@@ -56,6 +57,7 @@ function Dashboard(props) {
                             </TouchableOpacity>
                         </View>
 
+                        {/* products list */}
                         <View style={styles.productList}>
 
                             {
@@ -78,7 +80,7 @@ function Dashboard(props) {
                                     null
                             }
 
-
+                            {/* if there are no products, then loader will be shown */}
                             {
                                 props.currentSellerProducts.length === 0 && props.isLoading === true ?
                                     <ActivityIndicator size={85} color="#687089" />
@@ -178,17 +180,16 @@ const styles = StyleSheet.create({
 
 });
 function mapStateToProps(state) {
-    console.log('Redux State - Dashboard Screen', Object.values(state.root.current_seller_products?.products || {}))
     return {
-        sellerStore: state.root.async_storage_data?.data?.store,
-        currentSellerProducts: Object.values(state.root.current_seller_products?.products || {}),
-        isLoading: state.root.current_seller_products?.loading,
+        sellerStore: state.root.async_storage_data?.data?.store, // getting seller's store details from asyncStorage
+        currentSellerProducts: Object.values(state.root.current_seller_products?.products || {}), // getting current seller products list
+        isLoading: state.root.current_seller_products?.loading, // loading boolean
     }
 }
 function mapDispatchToProps(dispatch) {
     return ({
-        RetrieveDataAssyncStorageAction: () => { dispatch(RetrieveDataAssyncStorage()) },
-        GetCurrentSellerProductsAction: (sellerUID) => { dispatch(GetCurrentSellerProducts(sellerUID)) },
+        RetrieveDataAssyncStorageAction: () => { dispatch(RetrieveDataAssyncStorage()) }, // get seller data from asyncstorage funtion
+        GetCurrentSellerProductsAction: (sellerUID) => { dispatch(GetCurrentSellerProducts(sellerUID)) } // get current seller's products function
     })
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

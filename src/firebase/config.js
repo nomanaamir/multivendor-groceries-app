@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-
+// initializing firebase
 const firebaseConfig = {
     apiKey: "AIzaSyCVR7G6ldRWT87di-GzrUBZHmBUsNTrQkw",
     authDomain: "multi-vendor-groceries-app.firebaseapp.com",

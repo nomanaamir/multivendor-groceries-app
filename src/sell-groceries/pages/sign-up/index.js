@@ -51,12 +51,12 @@ function SellerSignUp(props) {
             completeAddress === '' ||
             openUntil === ''
         ) {
-            alert('All fields required!')
+            alert('All fields required!') // checking if input values fields are empty then alert will be show
         } else {
             if (password !== confirmPassword) {
-                alert('Password must be matched!')
+                alert('Password must be matched!') // checking if values of 'password' & 'confirm password' fields are empty then alert will be show
             } else {
-                props.SellerAccountSignUpAction(email, password, seller)
+                props.SellerAccountSignUpAction(email, password, seller) // calling Seller account sign in middleware function
             }
         }
         console.log('email', email);
@@ -236,13 +236,14 @@ const styles = StyleSheet.create({
     }
 });
 function mapStateToProps(state) {
-    console.log('Redux State - SignUp Screen', state.root.is_seller_signed_up)
+
     return {
-        isSellerSignedUp: state.root.is_seller_signed_up
+        isSellerSignedUp: state.root.is_seller_signed_up // getting seller sign Up boolean
     }
 }
 function mapDispatchToProps(dispatch) {
     return ({
+        // seller account sign up middleware function - passing three params, 'email', 'password' and 'seller details'
         SellerAccountSignUpAction: (email, password, seller) => { dispatch(SellerAccountSignUp(email, password, seller)) },
 
     })

@@ -24,11 +24,12 @@ function ChooseOption(props) {
 
     const { navigation } = props;
     useEffect(() => {
-        props.setNavigationPropsAction(navigation);
-        props.RetrieveDataAssyncStorageAction();
-       
+        props.setNavigationPropsAction(navigation); // setting navigation props in redux in order to access it from anywhere - even in child components
+        props.RetrieveDataAssyncStorageAction(); // calling asynscStorage function of getting seller details
+
     }, []);
 
+    // checking if seller is already logged in then goto direct seller dashboard
     useEffect(() => {
         if (props.isSeller) {
             navigation.navigate('sellerDashboard')
@@ -53,7 +54,7 @@ function ChooseOption(props) {
                     <View style={styles.chooseOptionContainerBody}>
 
                         {
-                            props.isSeller === false ?
+                            props.isSeller === false ? // checking if seller is not logged in then buttons will be shown
                                 <>
 
                                     <Button
@@ -76,7 +77,7 @@ function ChooseOption(props) {
                                     />
                                 </>
                                 :
-                                <ActivityIndicator size={85} color="#687089" />
+                                <ActivityIndicator size={85} color="#687089" /> // otherwise loader appears
 
                         }
 
@@ -113,15 +114,15 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-    console.log('Redux State - Choose option Screen', state.root.async_storage_data?.data?.isLoggedIn)
+
     return {
-        isSeller: state.root.async_storage_data?.data?.isLoggedIn
+        isSeller: state.root.async_storage_data?.data?.isLoggedIn // getting boolean of logged in state from asyncStorage
     }
 }
 function mapDispatchToProps(dispatch) {
     return ({
-        setNavigationPropsAction: (navigation) => { dispatch(setNavigationProps(navigation)) },
-        RetrieveDataAssyncStorageAction: () => { dispatch(RetrieveDataAssyncStorage()) },
+        setNavigationPropsAction: (navigation) => { dispatch(setNavigationProps(navigation)) }, // middleware function set navigation props in redux
+        RetrieveDataAssyncStorageAction: () => { dispatch(RetrieveDataAssyncStorage()) }, // middleware function of seller's asyncStorage data
     })
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChooseOption);

@@ -29,6 +29,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Dashboard from '../dashboard/index';
 import AddNewProduct from '../add-new-product/index'
 const Stack = createStackNavigator();
+
+// fade animation between routing
 const forFade = ({ current }) => ({
     cardStyle: {
         opacity: current.progress,
@@ -38,13 +40,13 @@ const forFade = ({ current }) => ({
 function SellerDashboard(props) {
 
     useEffect(() => {
-        props.RetrieveDataAssyncStorageAction()
+        props.RetrieveDataAssyncStorageAction() // calling get seller's store function of asynncStorage
     }, []);
 
     return (
         <Stack.Navigator>
 
-            {/* navigation screens route */}
+            {/* navigation screens routes of seller dashboard */}
             <Stack.Screen name="dashboard" component={Dashboard} options={{
                 headerRightContainerStyle: {
                     padding: 10
@@ -72,7 +74,6 @@ function SellerDashboard(props) {
                     shadowOpacity: 0,
                 }, cardStyleInterpolator: forFade
             }} />
-            {/* <Stack.Screen name="chooseOption" component={ChooseOption} options={{ headerShown: false, cardStyleInterpolator: forFade, }} /> */}
 
 
         </Stack.Navigator>

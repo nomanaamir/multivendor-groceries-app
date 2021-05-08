@@ -29,8 +29,9 @@ function SellerSignIn(props) {
             email === '' ||
             password === ''
         ) {
-            alert('All fields required!')
+            alert('All fields required!') // checking if input values fields are empty then alert will be show
         } else {
+            // calling seller sign in middlewares function
             props.SellerAccountSignInAction(email, password)
         }
     }
@@ -110,12 +111,12 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        isSellerSignedIn: state.root.is_seller_signed_in
+        isSellerSignedIn: state.root.is_seller_signed_in // seller sign in login boolean
     }
 }
 function mapDispatchToProps(dispatch) {
     return ({
-        SellerAccountSignInAction: (email, password) => { dispatch(SellerAccountSignIn(email, password)) },
+        SellerAccountSignInAction: (email, password) => { dispatch(SellerAccountSignIn(email, password)) }, // seller sign in middlewares function
 
     })
 }

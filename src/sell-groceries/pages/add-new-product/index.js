@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 // import middlewares functions
 import { SellerAddNewProduct } from '../../../Store/Middlewares/middlewares';
 
+// components
 import TextInput from '../../../shared/components/input-field/index';
 import Button from '../../../shared/components/button/index';
 
@@ -44,6 +45,7 @@ function AddNewProduct(props) {
         ) {
             alert('All fields required!')
         } else {
+            // add new product middleware function - passing two params 'seller auth UID' and 'product details'
             props.SellerAddNewProductAction(sellerUID, product)
         }
     }
@@ -153,11 +155,12 @@ const styles = StyleSheet.create({
 });
 function mapStateToProps(state) {
     return {
-        isSellerSignedIn: state.root.is_seller_signed_in
+        isSellerSignedIn: state.root.is_seller_signed_in // getting boolean
     }
 }
 function mapDispatchToProps(dispatch) {
     return ({
+        // add new product middleware function - passing two params 'seller auth UID' and 'product details'
         SellerAddNewProductAction: (sellerUID, product) => { dispatch(SellerAddNewProduct(sellerUID, product)) },
 
     })
