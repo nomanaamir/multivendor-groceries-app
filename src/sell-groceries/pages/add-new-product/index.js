@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     SafeAreaView,
     ScrollView,
@@ -10,12 +10,45 @@ import {
     Dimensions
 } from 'react-native';
 const { width, height, fontScale } = Dimensions.get('window')
+// import 'connect' to connect the redux with screens
+import { connect } from 'react-redux';
+// import middlewares functions
+import { SellerAddNewProduct } from '../../../Store/Middlewares/middlewares';
+
+// components
 import TextInput from '../../../shared/components/input-field/index';
 import Button from '../../../shared/components/button/index';
 
 function AddNewProduct(props) {
-    const { navigation } = props;
+    const [productName, setProductName] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
+    const [quantity, setQuantity] = useState('');
+    const [size, setSize] = useState('');
 
+    const { navigation, route } = props;
+    const { sellerUID } = route.params;
+    const addProduct = () => {
+        const product = {
+            productName,
+            price,
+            description,
+            quantity,
+            size
+        }
+        if (
+            productName === '' ||
+            price === '' ||
+            description === '' ||
+            quantity === '' ||
+            size === ''
+        ) {
+            alert('All fields required!')
+        } else {
+            // add new product middleware function - passing two params 'seller auth UID' and 'product details'
+            props.SellerAddNewProductAction(sellerUID, product)
+        }
+    }
     return (
         // safe area and scroll view for responsive height and width for landscape mode
         <SafeAreaView style={styles.container}>
@@ -35,35 +68,35 @@ function AddNewProduct(props) {
                                 placeholder={'Product Name'}
                                 keyboardType="default"
                                 secureTextEntry={false}
-                                onChangeText={(text) => console.log(text)}
+                                onChangeText={(text) => setProductName(text)}
                             />
 
                             <TextInput
                                 placeholder={'Price'}
                                 keyboardType="numeric"
-                                secureTextEntry={true}
-                                onChangeText={(text) => console.log(text)}
+                                secureTextEntry={false}
+                                onChangeText={(text) => setPrice(text)}
                             />
 
                             <TextInput
                                 placeholder={'Description'}
                                 keyboardType="default"
-                                secureTextEntry={true}
-                                onChangeText={(text) => console.log(text)}
+                                secureTextEntry={false}
+                                onChangeText={(text) => setDescription(text)}
                             />
 
                             <TextInput
                                 placeholder={'Quantity'}
                                 keyboardType="numeric"
                                 secureTextEntry={false}
-                                onChangeText={(text) => console.log(text)}
+                                onChangeText={(text) => setQuantity(text)}
                             />
 
                             <TextInput
                                 placeholder={'Size'}
                                 keyboardType="numeric"
                                 secureTextEntry={false}
-                                onChangeText={(text) => console.log(text)}
+                                onChangeText={(text) => setSize(text)}
                             />
                         </View>
                     </View>
@@ -75,7 +108,8 @@ function AddNewProduct(props) {
                         <Button
                             title={"Submit Details"}
                             color={'#2196f3'}
-                            onPress={() => null}
+                            loader={false}
+                            onPress={() => addProduct()}
                         />
 
                     </View>
@@ -119,5 +153,16 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
 });
+function mapStateToProps(state) {
+    return {
+        isSellerSignedIn: state.root.is_seller_signed_in // getting boolean
+    }
+}
+function mapDispatchToProps(dispatch) {
+    return ({
+        // add new product middleware function - passing two params 'seller auth UID' and 'product details'
+        SellerAddNewProductAction: (sellerUID, product) => { dispatch(SellerAddNewProduct(sellerUID, product)) },
 
-export default AddNewProduct;
+    })
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AddNewProduct);

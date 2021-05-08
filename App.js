@@ -56,7 +56,7 @@ function App() {
               shadowOpacity: 0,
             }, cardStyleInterpolator: forFade
           }} />
-          <Stack.Screen name="sellerDashboard" component={SellerDashboard} options={{ headerShown: false, cardStyleInterpolator: forFade, }} />
+          <Stack.Screen name="sellerDashboard" component={SellerDashboard} options={{ headerShown: false }} />
 
 
         </Stack.Navigator>
