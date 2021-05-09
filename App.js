@@ -28,6 +28,8 @@ import SellerDashboard from './src/sell-groceries/pages/seller-dashboard/index';
 
 // buyer pages
 import StoresList from './src/buy-groceries/pages/stores-list/index';
+import NearMe from './src/buy-groceries/pages/near-me/index';
+
 
 LogBox.ignoreLogs(['Setting a timer for a long period of time'])
 const Stack = createStackNavigator();
@@ -61,7 +63,21 @@ function App() {
             }, cardStyleInterpolator: forFade
           }} />
           <Stack.Screen name="sellerDashboard" component={SellerDashboard} options={{ headerShown: false }} />
-          <Stack.Screen name="storesList" component={StoresList} options={{ headerShown: false }} />
+          <Stack.Screen name="storesList" component={StoresList} options={{
+            headerTintColor: 'white', headerTitle: 'Stores', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#2196f3',
+              elevation: 0,
+              shadowOpacity: 0,
+            }
+          }} />
+          <Stack.Screen name="nearMe" component={NearMe} options={{
+            headerTintColor: 'white', headerTitle: 'Stores Near By You', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#2196f3',
+              elevation: 0,
+              shadowOpacity: 0,
+            }
+          }} />
+
 
 
 

@@ -26,6 +26,8 @@ function SellerSignUp(props) {
     const [storeName, setStoreName] = useState('');
     const [completeAddress, setCompleteAddress] = useState('');
     const [openUntil, setOpenUntil] = useState('');
+    const [latitude, setLatitude] = useState(null);
+    const [longitude, setLongitude] = useState(null);
 
     const timings = [
         '6:00 PM',
@@ -41,7 +43,9 @@ function SellerSignUp(props) {
             email,
             storeName,
             completeAddress,
-            openUntil
+            openUntil,
+            latitude: parseFloat(latitude),
+            longitude: parseFloat(longitude)
         }
         if (
             email === '' ||
@@ -49,7 +53,9 @@ function SellerSignUp(props) {
             confirmPassword === '' ||
             storeName === '' ||
             completeAddress === '' ||
-            openUntil === ''
+            openUntil === '',
+            latitude === null,
+            longitude === null
         ) {
             alert('All fields required!') // checking if input values fields are empty then alert will be show
         } else {
@@ -113,6 +119,20 @@ function SellerSignUp(props) {
                                 keyboardType="default"
                                 secureTextEntry={false}
                                 onChangeText={(text) => setCompleteAddress(text)}
+                            />
+
+                            <TextInput
+                                placeholder={'Latitude'}
+                                keyboardType="numeric"
+                                secureTextEntry={false}
+                                onChangeText={(text) => setLatitude(text)}
+                            />
+
+                            <TextInput
+                                placeholder={'Longitude'}
+                                keyboardType="numeric"
+                                secureTextEntry={false}
+                                onChangeText={(text) => setLongitude(text)}
                             />
                             {/* open until timings options */}
                             <View style={styles.openUntil}>
@@ -190,7 +210,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     sellerSignUpBody: {
-        height: height / 1.3,
+        height: height / 1.1,
     },
     openUntilText: {
         fontSize: fontScale * 14,
