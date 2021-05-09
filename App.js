@@ -25,6 +25,10 @@ import ChooseOption from './src/shared/pages/choose-option/index';
 import SellerSignUp from './src/sell-groceries/pages/sign-up/index';
 import SellerSignIn from './src/sell-groceries/pages/sign-in/index';
 import SellerDashboard from './src/sell-groceries/pages/seller-dashboard/index';
+
+// buyer pages
+import StoresList from './src/buy-groceries/pages/stores-list/index';
+
 LogBox.ignoreLogs(['Setting a timer for a long period of time'])
 const Stack = createStackNavigator();
 const forFade = ({ current }) => ({
@@ -57,6 +61,8 @@ function App() {
             }, cardStyleInterpolator: forFade
           }} />
           <Stack.Screen name="sellerDashboard" component={SellerDashboard} options={{ headerShown: false }} />
+          <Stack.Screen name="storesList" component={StoresList} options={{ headerShown: false }} />
+
 
 
         </Stack.Navigator>

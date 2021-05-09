@@ -5,6 +5,7 @@ const InitialState = {
     is_seller_signed_in: false,
     navigation_props: {},
     current_seller_products: {},
+    stores_list: {},
     async_storage_data: {
         'data': {
             store: {},
@@ -24,6 +25,18 @@ export default (state = InitialState, action) => {
 
         case ActionTypes.GET_CURRENT_SELLER_PRODUCTS:
             return ({ ...state, current_seller_products: action.payload });
+
+        case ActionTypes.GET_STORES:
+            let obj = {};
+            let storesArray = []
+            for (let key in action.payload.stores) {
+                if (action.payload.stores.hasOwnProperty(key)) {
+                    obj = Object.assign({}, action.payload.stores[key], { uid: key })
+                    storesArray.push(obj)
+                }
+            }
+            // console.log('storesArry', storesArray);
+            return ({ ...state, stores_list: { stores: storesArray, loading: action.payload.loading } });
 
 
 

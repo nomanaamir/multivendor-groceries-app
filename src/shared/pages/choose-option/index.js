@@ -61,7 +61,7 @@ function ChooseOption(props) {
                                         loader={false}
                                         title={"I want to Buy Groceries"}
                                         color={'#687089'}
-                                        onPress={() => null}
+                                        onPress={() => navigation.navigate('storesList')}
                                     />
                                     <Button
                                         loader={false}
