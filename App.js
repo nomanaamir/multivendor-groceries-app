@@ -29,7 +29,7 @@ import SellerDashboard from './src/sell-groceries/pages/seller-dashboard/index';
 // buyer pages
 import StoresList from './src/buy-groceries/pages/stores-list/index';
 import NearMe from './src/buy-groceries/pages/near-me/index';
-
+import StoreProducts from './src/buy-groceries/pages/store-products';
 
 LogBox.ignoreLogs(['Setting a timer for a long period of time'])
 const Stack = createStackNavigator();
@@ -78,7 +78,7 @@ function App() {
             }
           }} />
 
-
+          <Stack.Screen name="storeProducts" component={StoreProducts} options={{ headerShown: false, cardStyleInterpolator: forFade, }} />
 
 
         </Stack.Navigator>

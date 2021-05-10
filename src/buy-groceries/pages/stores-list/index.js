@@ -121,6 +121,21 @@ function StoresList(props) {
         }
         return location
     }
+    const selectStore = (storeName, products) => {
+        if (products === undefined) {
+            alert('There are no products available in this store')
+        } else {
+            const storeDetails = {
+                storeName,
+                products
+            }
+            navigation.navigate('storeProducts', {
+                screen: 'productsList',
+                params: { store: JSON.stringify(storeDetails) },
+            });
+
+        }
+    }
     useEffect(() => {
         props.GetStoresAction();
     }, [props.isLoading]);
@@ -171,7 +186,7 @@ function StoresList(props) {
                             props.storesList.length > 0 && props.isLoading === false ?
                                 filteration().map((item, index) => {
                                     return (
-                                        <TouchableOpacity style={styles.storesRow} key={index}>
+                                        <TouchableOpacity style={styles.storesRow} key={index} onPress={() => selectStore(item.storeName, item.products)}>
                                             <View style={styles.col1}>
                                                 <Text style={styles.storeName}>{item.storeName}</Text>
                                                 <View style={styles.iconRow}>
