@@ -14,6 +14,8 @@ target 'MultiVendorGroceriesApp' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
+  pod 'ReactNativeGetLocation', :path => '../node_modules/react-native-get-location'
+
   target 'MultiVendorGroceriesAppTests' do
     inherit! :complete
     # Pods for testing

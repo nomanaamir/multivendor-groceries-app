@@ -138,6 +138,24 @@ export function GetSellerStoreDetails(sellerUID) {
     }
 }
 
+export function GetStores() {
+    return dispatch => {
+        dispatch({ type: ActionTypes.GET_STORES, payload: { stores: {}, loading: true } })
+        database.child(`stores`).on('value', (ev) => {
+            if (ev.val()) {
+                console.log('abc', ev.val())
+                dispatch({ type: ActionTypes.GET_STORES, payload: { stores: ev.val(), loading: false } })
+            } else {
+                dispatch({ type: ActionTypes.GET_STORES, payload: { stores: {}, loading: false } })
+
+            }
+        })
+
+
+    }
+}
+
+
 export function setNavigationProps(navigation) {
     console.log('navigation:=>', navigation)
     return dispatch => {
