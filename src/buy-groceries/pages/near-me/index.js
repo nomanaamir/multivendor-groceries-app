@@ -6,41 +6,19 @@ import {
     LogBox
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { Marker, Circle } from 'react-native-maps';
-// import icons
-import Feather from 'react-native-vector-icons/Feather';
+import { Marker } from 'react-native-maps';
+
 
 // import 'connect' to connect the redux with screens
 import { connect } from 'react-redux';
-// import middlewares functions
-import { GetStores } from '../../../Store/Middlewares/middlewares';
+
 LogBox.ignoreAllLogs()
 const { height } = Dimensions.get('window');
 function NearMe(props) {
     const [buyerLocation, setBuyerLocation] = useState({})
 
-    const locations = [
-        {
-            latitude: 24.91393977294782,
-            longitude: 67.02482470547355,
-            title: 'ABC'
-        },
-        {
-            latitude: 24.91402739965812,
-            longitude: 67.02612620462891,
-            title: 'XYZ'
-
-        },
-        {
-            latitude: 24.929757962832888,
-            longitude: 67.01791368733784,
-            title: 'SSS'
-
-        }
-    ]
     const { navigation, route } = props;
-    const { currentLocation } = route.params;
-    console.log('currentLocation', currentLocation)
+    const { currentLocation } = route.params; // getting current location from route params
 
 
     const getCoordinates = (item) => {
@@ -53,14 +31,14 @@ function NearMe(props) {
         return location
     }
     useEffect(() => {
-        setBuyerLocation(currentLocation)
+        setBuyerLocation(currentLocation) // set current user location in hooks
 
     }, []);
     return (
         <View style={styles.container}>
 
             {
-               buyerLocation?.latitude !== undefined && buyerLocation?.longitude !== undefined && locations !== undefined && locations.length > 0 ?
+               buyerLocation?.latitude !== undefined && buyerLocation?.longitude !== undefined && props.storesList !== undefined && props.storesList.length > 0 ?
                     <MapView
                         // key={index}
                         provider={PROVIDER_GOOGLE}
@@ -75,7 +53,7 @@ function NearMe(props) {
                         }
                         showsUserLocation={true}
                         followUserLocation={true}
-                        zoomEnabled={false}
+                        zoomEnabled={true}
                         zoomControlEnabled={true}
                         scrollEnabled={true}
                         moveOnMarkerPress={true}
@@ -85,7 +63,7 @@ function NearMe(props) {
                             props.storesList.map((item, index) => {
                                 return (
 
-                                    <Marker
+                                    <Marker // stores are showing on map in current user location region
                                         key={index}
                                         coordinate={getCoordinates(item)}
                                         image={require('../../../../assets/pin.png')}
@@ -120,16 +98,10 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-    console.log('state.root.stores_list', state.root.stores_list)
+
     return {
-        storesList: state.root.stores_list?.stores || [], // seller sign in login boolean
-        isLoading: state.root.stores_list?.loading
+        storesList: state.root.stores_list?.stores || [], // stores list getting from reducers
     }
 }
-// function mapDispatchToProps(dispatch) {
-//     return ({
-//         GetStoresAction: () => { dispatch(GetStores()) }, // seller sign in middlewares function
 
-//     })
-// }
 export default connect(mapStateToProps, null)(NearMe);

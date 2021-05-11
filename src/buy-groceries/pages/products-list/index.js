@@ -26,7 +26,7 @@ function ProductsList(props) {
 
     }, []);
 
-    const filteration = () => {
+    const filteration = () => { // filter function, returing filtered array
 
         let data = storeProducts
             .filter(a => a.productName.toLowerCase().search(searchByName.toLowerCase()) !== -1);
@@ -41,13 +41,14 @@ function ProductsList(props) {
 
                 <View>
                     <View style={styles.filterBar}>
+                        {/* search field of products */}
                         <TextInput
                             style={styles.filterBarField}
                             placeholder='Sort By Name'
                             onChangeText={(text) => setSearchByName(text)}
                             placeholderTextColor="black"
                         />
-
+                        {/* total number of products */}
                         <Text style={styles.totalItems}>{filteration().length} Items</Text>
                     </View>
                     {/* products list */}
@@ -55,7 +56,7 @@ function ProductsList(props) {
 
                         {
                             selectedProducts.length > 0 ?
-                                filteration().map((item, index) => {
+                                filteration().map((item, index) => { // products are showing
                                     return (
                                         <Product product={item} navigation={navigation} key={index} />
 
@@ -64,14 +65,6 @@ function ProductsList(props) {
                                 :
                                 null
                         }
-
-                        {/* if there are no products, then loader will be shown */}
-                        {/* {
-                            props.currentSellerProducts.length === 0 && props.isLoading === true ?
-                                <ActivityIndicator size={85} color="#687089" />
-                                :
-                                null
-                        } */}
 
 
 
@@ -118,17 +111,5 @@ const styles = StyleSheet.create({
 
 });
 
-// function mapStateToProps(state) {
-//     console.log('state.root.stores_list', state.root.stores_list)
-//     return {
-//         storesList: state.root.stores_list?.stores || [], // seller sign in login boolean
-//         isLoading: state.root.stores_list?.loading
-//     }
-// }
-// function mapDispatchToProps(dispatch) {
-//     return ({
-//         GetStoresAction: () => {dispatch(GetStores())}, // seller sign in middlewares function
 
-//     })
-// }
 export default ProductsList;
