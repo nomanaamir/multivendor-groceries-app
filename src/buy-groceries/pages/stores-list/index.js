@@ -31,98 +31,83 @@ function StoresList(props) {
     const [location, setLocation] = useState(null)
     const [locationLoading, setLocationLoading] = useState(false)
 
-    const locations = [
-        {
-            latitude: 24.91393977294782,
-            longitude: 67.02482470547355,
-            title: 'ABC'
-        },
-        {
-            latitude: 24.91402739965812,
-            longitude: 67.02612620462891,
-            title: 'XYZ'
-
-        },
-        {
-            latitude: 24.929757962832888,
-            longitude: 67.01791368733784,
-            title: 'SSS'
-
-        }
-    ]
     const { navigation } = props;
 
     const selectTwentyFourHours = (hours) => {
         setSearchByName('')
-        if (twentyFour === hours) {
+        if (twentyFour === hours) { // 24/7 is selected then empty it
             setTwentyFour('')
-        } else {
+        } else { // else set the filter value
             setTwentyFour(hours)
         }
     }
 
-    const filteration = () => {
+    const filteration = () => { /// filteration funtion returning the fitered data
         let data = props.storesList
-            .filter(a => a.openUntil.search(twentyFour) !== -1);
+            .filter(a => a.openUntil.search(twentyFour) !== -1); // 24/7 filteration is occured here
 
         if (searchByName) {
             return data = props.storesList
-                .filter(a => a.storeName.toLowerCase().search(searchByName.toLowerCase()) !== -1);
+                .filter(a => a.storeName.toLowerCase().search(searchByName.toLowerCase()) !== -1); // search by name filteration is occured here
         }
         return data
     }
-    const nearMe = () => {
+    const nearMe = () => { // near me funtion
 
-        setLocation(null)
-        setLocationLoading(true)
+        setLocation(null);
+        setLocationLoading(true);
 
-        // this.setState({ loading: true, location: null });
-
-        GetLocation.getCurrentPosition({
+        GetLocation.getCurrentPosition({ // fetching funtion of user's current location
             enableHighAccuracy: true,
             timeout: 150000,
         })
-            .then(location => {
-                console.log(' setLocation(location)', location)
+            .then(location => { // getting location herer
                 const currentLocation = {
                     longitude: location.longitude,
                     latitude: location.latitude,
                 }
                 setLocationLoading(false)
-                setLocation(currentLocation)
-                navigation.navigate('nearMe', { currentLocation })
+                setLocation(currentLocation) // setting location in hooks
+                navigation.navigate('nearMe', { currentLocation }) // redirect to near me page
             })
-            .catch(ex => {
+            .catch(ex => { // catch funciton for error handling
                 const { code, message } = ex;
                 console.warn(code, message);
                 if (code === 'CANCELLED') {
                     alert('Location cancelled by user or by another request');
                 }
                 if (code === 'UNAVAILABLE') {
-                    GetLocation.openGpsSettings();
+                    GetLocation.openGpsSettings(); // open gps settings
                 }
                 if (code === 'TIMEOUT') {
                     alert('Location request timed out');
                 }
                 if (code === 'UNAUTHORIZED') {
-                    GetLocation.openAppSettings();
+                    GetLocation.openAppSettings(); // open permission settings
                     alert('Authorization denied, allow the permission!');
                 }
                 setLocationLoading(false)
                 setLocation(null)
             });
     }
-    const getCoordinates = (item) => {
-        const location = {
-            longitude: item.longitude,
-            latitude: item.latitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+
+    const selectStore = (storeName, products) => { // select store funtion
+        if (products === undefined) { // if any store doesn't have products then show alert
+            alert('There are no products available in this store')
+        } else {
+            const storeDetails = {
+                storeName,
+                products
+            }
+            navigation.navigate('storeProducts', { // if store has products then redirect to product list
+                screen: 'productsList',
+                params: { store: JSON.stringify(storeDetails) }, // with products - passing through params
+            });
+
         }
-        return location
     }
     useEffect(() => {
-        props.GetStoresAction();
+        props.GetStoresAction(); // calling get stores function when page load
     }, [props.isLoading]);
     return (
         <View style={styles.container}>
@@ -140,6 +125,7 @@ function StoresList(props) {
                 </View>
 
                 <View style={styles.filterTabs}>
+                    {/* click me function */}
                     <TouchableOpacity style={styles.filterTabsBtn} disabled={locationLoading} onPress={() => nearMe()}>
                         {
                             locationLoading === true ?
@@ -150,6 +136,8 @@ function StoresList(props) {
                                 </Text>
                         }
                     </TouchableOpacity>
+
+                    {/* 24 hours filter function */}
 
                     <TouchableOpacity style={styles.filterTabsBtn} onPress={() => selectTwentyFourHours('24/7')}>
                         <Text style={styles.filterTabsBtnText}>
@@ -171,7 +159,8 @@ function StoresList(props) {
                             props.storesList.length > 0 && props.isLoading === false ?
                                 filteration().map((item, index) => {
                                     return (
-                                        <TouchableOpacity style={styles.storesRow} key={index}>
+                                        // stores are showing
+                                        <TouchableOpacity style={styles.storesRow} key={index} onPress={() => selectStore(item.storeName, item.products)}>
                                             <View style={styles.col1}>
                                                 <Text style={styles.storeName}>{item.storeName}</Text>
                                                 <View style={styles.iconRow}>
@@ -232,7 +221,6 @@ const styles = StyleSheet.create({
     },
     filterTabs: {
         flexDirection: 'row',
-        // backgroundColor: 'red',
         justifyContent: 'space-around',
         marginTop: 10
     },
@@ -241,7 +229,6 @@ const styles = StyleSheet.create({
         height: 40,
         paddingRight: 20,
         paddingLeft: 20,
-        // margin: 8,
         borderRadius: 20,
         justifyContent: 'center',
         minWidth: 100
@@ -252,7 +239,6 @@ const styles = StyleSheet.create({
     storesRow: {
         flexDirection: 'row',
         padding: 12,
-        // backgroundColor: 'red',
         borderBottomColor: '#3c3c3c',
         borderBottomWidth: 1,
         borderStyle: 'solid',
@@ -260,7 +246,6 @@ const styles = StyleSheet.create({
     },
     col1: {
         width: '60%',
-        // backgroundColor: 'yellow',
         minHeight: height / 7,
         justifyContent: 'space-around'
     },
@@ -289,15 +274,15 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-    console.log('state.root.stores_list', state.root.stores_list)
+ 
     return {
-        storesList: state.root.stores_list?.stores || [], // seller sign in login boolean
+        storesList: state.root.stores_list?.stores || [], // gettin stores list from reducers
         isLoading: state.root.stores_list?.loading
     }
 }
 function mapDispatchToProps(dispatch) {
     return ({
-        GetStoresAction: () => { dispatch(GetStores()) }, // seller sign in middlewares function
+        GetStoresAction: () => { dispatch(GetStores()) }, // call GetStores function
 
     })
 }

@@ -14,13 +14,20 @@ import { connect } from 'react-redux';
 // import middlewares functions
 import { RetrieveDataAssyncStorage, GetCurrentSellerProducts } from '../../../Store/Middlewares/middlewares';
 const { width, height, fontScale } = Dimensions.get('window')
-
+import Product from '../../../shared/components/product/index';
 function Dashboard(props) {
     const { navigation } = props;
 
+    // useEffect(() => {
+    //     if (props.sellerStore?.uid !== undefined) {
+    //         props.GetCurrentSellerProductsAction(props.sellerStore?.uid)
+    //     }
+    // }, [props.isLoading]);
     useEffect(() => {
-        props.GetCurrentSellerProductsAction(props.sellerStore?.uid)
-    }, [props.isLoading]);
+        if (props.sellerStore?.uid !== undefined) {
+            props.GetCurrentSellerProductsAction(props.sellerStore?.uid)
+        }
+    }, [props.sellerStore]);
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView
@@ -64,15 +71,7 @@ function Dashboard(props) {
                                 props.currentSellerProducts.length > 0 && props.isLoading === false ?
                                     props.currentSellerProducts.map((item, index) => {
                                         return (
-                                            <View style={styles.product} key={index}>
-                                                <View style={styles.productImg}>
-
-                                                </View>
-                                                <View style={styles.productInfo}>
-                                                    <Text style={styles.productInfoName}>{item.productName}</Text>
-                                                    <Text style={styles.productInfoPrice}>£{item.price}{ }</Text>
-                                                </View>
-                                            </View>
+                                            <Product product={item} navigation={navigation} key={index} isBuyer={false}/>
 
                                         )
                                     })
