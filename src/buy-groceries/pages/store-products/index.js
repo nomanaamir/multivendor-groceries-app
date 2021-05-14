@@ -12,6 +12,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
 import ProductsList from '../products-list/index';
+import ProductDetails from '../product-details/index';
+
 const Stack = createStackNavigator();
 
 // fade animation between routing
@@ -35,6 +37,15 @@ function StoreProducts(props) {
             <Stack.Screen name="productsList" component={ProductsList} options={{
 
                 headerTintColor: 'white', headerTitle: storeName, headerTitleAlign: 'left', headerStyle: {
+                    backgroundColor: '#2196f3',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                }, cardStyleInterpolator: forFade
+            }} />
+
+            <Stack.Screen name="productDetails" component={ProductDetails} options={{
+
+                headerTintColor: 'white', headerTitle: 'Ecommerce', headerTitleAlign: 'left', headerStyle: {
                     backgroundColor: '#2196f3',
                     elevation: 0,
                     shadowOpacity: 0,

@@ -87,7 +87,7 @@ function ProductsList(props) {
                             selectedProducts.length > 0 ?
                                 filteration().map((item, index) => { // products are showing
                                     return (
-                                        <Product product={item} navigation={navigation} key={index} />
+                                        <Product product={item} navigation={navigation} key={index} isBuyer={true}/>
 
                                     )
                                 })

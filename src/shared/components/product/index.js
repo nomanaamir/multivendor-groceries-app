@@ -9,11 +9,16 @@ import {
 const { width, height, fontScale } = Dimensions.get('window')
 
 function Product(props) {
-    const { navigation, product } = props;
+    const { navigation, product, isBuyer } = props;
     const { productName, price, description, quantity, size } = product
 
+    const productDetails = ()=>{
+        if(isBuyer){
+            navigation.navigate('productDetails', { product })
+        }
+    }
     return (
-        <TouchableOpacity style={styles.product}>
+        <TouchableOpacity style={styles.product} onPress={()=> productDetails()}>
             <View style={styles.productImg}>
 
             </View>

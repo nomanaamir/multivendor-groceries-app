@@ -71,7 +71,7 @@ function Dashboard(props) {
                                 props.currentSellerProducts.length > 0 && props.isLoading === false ?
                                     props.currentSellerProducts.map((item, index) => {
                                         return (
-                                            <Product product={item} navigation={navigation} key={index} />
+                                            <Product product={item} navigation={navigation} key={index} isBuyer={false}/>
 
                                         )
                                     })
