@@ -8,13 +8,14 @@ import {
     TextInput,
     Text
 } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 // components
 import Product from '../../../shared/components/product/index';
 const { fontScale } = Dimensions.get('window');
 function ProductsList(props) {
     const [storeProducts, setStoreProducts] = useState([])
     const [searchByName, setSearchByName] = useState('')
-
+    const [sortBy, setSortBy] = useState(undefined);
     const { navigation, route } = props;
     const { store } = route.params;
     let selectedStore = JSON.parse(store)
@@ -26,11 +27,25 @@ function ProductsList(props) {
 
     }, []);
 
+    function sorting(itemValue, itemIndex) {
+
+        console.log('eeee', itemValue)
+        setSortBy(itemValue)
+        // setSortBy(e)
+    }
     const filteration = () => { // filter function, returing filtered array
+        let data = storeProducts;
+        if (sortBy === 'price') {
+            data = storeProducts.sort((a, b) => parseInt(a.price) - parseInt(b.price)); // if price is slected then values will be sorted accending order
 
-        let data = storeProducts
-            .filter(a => a.productName.toLowerCase().search(searchByName.toLowerCase()) !== -1);
+        } else if (sortBy === undefined) { // reset filter
 
+            data = selectedProducts
+        }
+        if (sortBy === 'name') { // if name is selcted then values will be sorted by alphabatically
+            return data = storeProducts.sort((a, b) => a.productName.toLowerCase() > b.productName.toLowerCase());
+
+        }
         return data
     }
     return (
@@ -42,13 +57,27 @@ function ProductsList(props) {
                 <View>
                     <View style={styles.filterBar}>
                         {/* search field of products */}
-                        <TextInput
-                            style={styles.filterBarField}
-                            placeholder='Sort By Name'
-                            onChangeText={(text) => setSearchByName(text)}
-                            placeholderTextColor="black"
-                        />
-                        {/* total number of products */}
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Text style={{ color: '#a6aab9' }}> Sort By</Text>
+                            <View style={styles.dropdown}>
+                                <Picker dropdownIconColor='#a6aab9'
+                                    selectedValue={sortBy}
+                                    mode={'dropdown'}
+                                    style={{ color: 'black'}}
+                                    onValueChange={
+                                        sorting
+                                    }
+
+                                >
+                                    <Picker.Item color='black' label={'Select'} />
+
+                                    <Picker.Item color='black' label={'Name'} value={'name'} />
+                                    <Picker.Item color='black' label={'Price'} value={'price'} />
+                                </Picker>
+                            </View>
+                      
+                        </View>
+                      
                         <Text style={styles.totalItems}>{filteration().length} Items</Text>
                     </View>
                     {/* products list */}
@@ -95,7 +124,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 10,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        alignItems: 'center'
     },
     filterBarField: {
         borderBottomWidth: 1,
@@ -107,7 +137,15 @@ const styles = StyleSheet.create({
     totalItems: {
         color: '#a6aab9',
         fontSize: fontScale * 11
-    }
+    },
+    dropdown: {
+        borderBottomWidth: 1,
+        width: 150,
+        borderBottomColor: "rgba(155,155,155,1)",
+        backgroundColor: "white",
+        marginTop: 10,
+        marginLeft: 4
+    },
 
 });
 
