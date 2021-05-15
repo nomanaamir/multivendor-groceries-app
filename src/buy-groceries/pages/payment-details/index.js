@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     StyleSheet,
     View,
@@ -22,10 +22,7 @@ function PaymentDetails(props) {
     const [phNumber, setPhNumber] = useState(null);
 
 
-    const { navigation, route } = props;
-    useEffect(() => {
-
-    }, []);
+    const { navigation } = props;
     const payNow = () => {
         if (
             cardNumber === null ||
@@ -38,15 +35,15 @@ function PaymentDetails(props) {
             country === '' ||
             phNumber === null
         ) {
-            alert('All fields required!')
+            alert('All fields required!') // show alert if any field is empty
         } else {
 
-            if (cardNumber.toString().length !== 16) {
+            if (cardNumber.toString().length !== 16) { // check if card number length is less then 16 then show alert
                 alert('Card number must have 16 digits!')
-            } else if (cvv.toString().length !== 3) {
+            } else if (cvv.toString().length !== 3) { // check if cvv number length is less then 3 then show alert
                 alert('CVV must have 3 digits!')
             } else {
-                navigation.navigate('congrats')
+                navigation.navigate('congrats') // if all set then goto congrats page
             }
 
         }
@@ -169,10 +166,6 @@ function PaymentDetails(props) {
                                 keyboardType="numeric"
                                 onChangeText={(text) => setPhNumber(text)}
                             />
-
-                            {/* <Text style={styles.cvvInfo}>
-                                Use your phone number please
-                            </Text> */}
 
                         </View>
                     </View>

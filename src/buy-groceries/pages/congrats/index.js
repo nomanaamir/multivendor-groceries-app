@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
     StyleSheet,
     View,
@@ -7,17 +7,13 @@ import {
 } from 'react-native';
 import Button from '../../../shared/components/button/index';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-const { height, width, fontScale } = Dimensions.get('window');
+const { fontScale } = Dimensions.get('window');
 function Congrats(props) {
 
 
-    const { navigation, route } = props;
+    const { navigation } = props;
 
     return (
-        // <SafeAreaView style={styles.container}>
-        //     <ScrollView
-        //         contentInsetAdjustmentBehavior="automatic"
-        //     >
         <View style={styles.congrats}>
             <View style={styles.col1}>
                 <View style={styles.message}>
@@ -36,8 +32,6 @@ function Congrats(props) {
                 />
             </View>
         </View>
-        //     </ScrollView >
-        // </SafeAreaView >
 
 
 
@@ -45,10 +39,6 @@ function Congrats(props) {
 };
 
 const styles = StyleSheet.create({
-    // container: {
-    //     backgroundColor: '#eff1f8',
-    //     flex: 1,
-    // },
     congrats: {
         flex: 1,
     },
