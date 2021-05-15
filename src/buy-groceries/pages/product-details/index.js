@@ -69,7 +69,7 @@ function ProductDetails(props) {
                                 loader={false}
                                 title={"Proceed"}
                                 color={'#2196f3'}
-                                onPress={() => null}
+                                onPress={() => navigation.navigate('paymentDetails')}
                             />
                         </View>
                     </View>
