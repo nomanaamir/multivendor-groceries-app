@@ -13,13 +13,12 @@ import { Picker } from '@react-native-picker/picker';
 import Product from '../../../shared/components/product/index';
 const { fontScale } = Dimensions.get('window');
 function ProductsList(props) {
-    const [storeProducts, setStoreProducts] = useState([])
-    const [searchByName, setSearchByName] = useState('')
+    const [storeProducts, setStoreProducts] = useState([]);
     const [sortBy, setSortBy] = useState(undefined);
     const { navigation, route } = props;
     const { store } = route.params;
     let selectedStore = JSON.parse(store)
-    const { storeName, products } = selectedStore;
+    const { products } = selectedStore;
     let selectedProducts = Object.values(products)
 
     useEffect(() => {
@@ -28,10 +27,7 @@ function ProductsList(props) {
     }, []);
 
     function sorting(itemValue, itemIndex) {
-
-        console.log('eeee', itemValue)
         setSortBy(itemValue)
-        // setSortBy(e)
     }
     const filteration = () => { // filter function, returing filtered array
         let data = storeProducts;
@@ -63,7 +59,7 @@ function ProductsList(props) {
                                 <Picker dropdownIconColor='#a6aab9'
                                     selectedValue={sortBy}
                                     mode={'dropdown'}
-                                    style={{ color: 'black'}}
+                                    style={{ color: 'black' }}
                                     onValueChange={
                                         sorting
                                     }
@@ -75,9 +71,9 @@ function ProductsList(props) {
                                     <Picker.Item color='black' label={'Price'} value={'price'} />
                                 </Picker>
                             </View>
-                      
+
                         </View>
-                      
+
                         <Text style={styles.totalItems}>{filteration().length} Items</Text>
                     </View>
                     {/* products list */}
@@ -87,7 +83,7 @@ function ProductsList(props) {
                             selectedProducts.length > 0 ?
                                 filteration().map((item, index) => { // products are showing
                                     return (
-                                        <Product product={item} navigation={navigation} key={index} isBuyer={true}/>
+                                        <Product product={item} navigation={navigation} key={index} isBuyer={true} />
 
                                     )
                                 })

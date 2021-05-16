@@ -6,10 +6,11 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
-  LogBox
+  LogBox,
+  BackHandler
 } from 'react-native';
 
 // provider, store
@@ -39,7 +40,11 @@ const forFade = ({ current }) => ({
   },
 });
 function App() {
-
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => true)
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', () => true)
+  }, [])
 
 
   return (

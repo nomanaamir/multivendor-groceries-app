@@ -13,7 +13,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import ProductsList from '../products-list/index';
 import ProductDetails from '../product-details/index';
-
+import PaymentDetails from '../payment-details/index';
+import Congrats from '../congrats/index';
 const Stack = createStackNavigator();
 
 // fade animation between routing
@@ -52,7 +53,16 @@ function StoreProducts(props) {
                 }, cardStyleInterpolator: forFade
             }} />
 
+            <Stack.Screen name="paymentDetails" component={PaymentDetails} options={{
 
+                headerTintColor: 'white', headerTitle: 'Payment Method', headerTitleAlign: 'left', headerStyle: {
+                    backgroundColor: '#2196f3',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                }
+            }} />
+
+            <Stack.Screen name="congrats" component={Congrats} options={{ headerShown: false }} />
 
         </Stack.Navigator>
     );

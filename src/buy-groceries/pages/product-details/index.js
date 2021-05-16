@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
     StyleSheet,
     View,
@@ -10,16 +10,13 @@ import {
 // import components
 import Button from '../../../shared/components/button/index';
 
-const { height, width, fontScale } = Dimensions.get('window');
+const { height, fontScale } = Dimensions.get('window');
 function ProductDetails(props) {
 
     const { navigation, route } = props;
     const { product } = route.params; // getting selected product
     const { productName, price, description, quantity, size } = product
-    console.log('product', product)
-    useEffect(() => {
 
-    }, []);
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView
@@ -69,7 +66,7 @@ function ProductDetails(props) {
                                 loader={false}
                                 title={"Proceed"}
                                 color={'#2196f3'}
-                                onPress={() => null}
+                                onPress={() => navigation.navigate('paymentDetails')} // goto payment details page
                             />
                         </View>
                     </View>
@@ -95,24 +92,20 @@ const styles = StyleSheet.create({
     },
     body: {
         padding: 10,
-        // backgroundColor: 'red',
         height: height / 1.8,
 
     },
     col1: {
         flex: 4,
-        // backgroundColor: 'yellow'
     },
     col2: {
         flex: 1,
-        // backgroundColor: 'black',
         justifyContent: 'center',
         alignItems: 'center'
 
     },
     spaceBetween: {
         justifyContent: 'space-between',
-        // backgroundColor: 'orange',
         flex: 1
     },
     productRow: {
