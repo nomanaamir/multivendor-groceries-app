@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   LogBox,
@@ -31,6 +31,10 @@ import SellerDashboard from './src/sell-groceries/pages/seller-dashboard/index';
 import StoresList from './src/buy-groceries/pages/stores-list/index';
 import NearMe from './src/buy-groceries/pages/near-me/index';
 import StoreProducts from './src/buy-groceries/pages/store-products';
+
+// admin pages
+import AdminSignIn from './src/admin/pages/sign-in/index';
+import AdminDashboard from './src/admin/pages/admin-dashboard/index'
 
 LogBox.ignoreLogs(['Setting a timer for a long period of time'])
 const Stack = createStackNavigator();
@@ -85,7 +89,21 @@ function App() {
 
           <Stack.Screen name="storeProducts" component={StoreProducts} options={{ headerShown: false, cardStyleInterpolator: forFade, }} />
 
+          <Stack.Screen name="adminSignIn" component={AdminSignIn} options={{
+            headerTintColor: 'white', headerTitle: 'Sign In', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#687089',
+              elevation: 0,
+              shadowOpacity: 0,
+            }, cardStyleInterpolator: forFade
+          }} />
 
+          <Stack.Screen name="adminDashboard" component={AdminDashboard} options={{
+            headerTintColor: 'white', headerLeft: () => null, headerTitle: 'Manage Your Sellers', headerTitleAlign: 'center', headerStyle: {
+              backgroundColor: '#687089',
+              elevation: 0,
+              shadowOpacity: 0,
+            }
+          }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

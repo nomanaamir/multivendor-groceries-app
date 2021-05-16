@@ -4,13 +4,14 @@ import firebase from 'firebase';
 let redirect = {};
 let database = firebase.database().ref();
 let auth = firebase.auth();
-async function storeData(data) {
+async function storeData(data, admin) {
     try {
         await AsyncStorage.setItem('store',
             JSON.stringify({
                 'data': {
                     store: data,
-                    isLoggedIn: true
+                    isLoggedIn: true,
+                    isAdmin: admin
                 }
             })
         );
@@ -109,6 +110,19 @@ export function SellerAddNewProduct(sellerUID, product) {
     }
 }
 
+export function AdminAccountSignIn() {
+    return dispatch => {
+        dispatch({ type: ActionTypes.ADMIN_SIGN_IN_SUCCESS, payload: true })
+        setTimeout(() => {
+            storeData({}, true);
+            redirect.navigate('adminDashboard')
+            dispatch({ type: ActionTypes.ADMIN_SIGN_IN_SUCCESS, payload: false })
+        }, 1500);
+
+
+    }
+}
+
 export function GetCurrentSellerProducts(sellerUID) {
     return dispatch => {
         dispatch({ type: ActionTypes.GET_CURRENT_SELLER_PRODUCTS, payload: { products: {}, loading: true } })
@@ -127,11 +141,32 @@ export function GetCurrentSellerProducts(sellerUID) {
 export function GetSellerStoreDetails(sellerUID) {
     return dispatch => {
         database.child(`stores/${sellerUID}`).on('value', ev => {
-            let sellerStore = ev.val();
-            sellerStore = Object.assign({}, sellerStore, { uid: sellerUID });
-            console.log('sellerStore', sellerStore)
-            storeData(sellerStore);
-            redirect.navigate('sellerDashboard')
+            if (!ev.val()) {
+                auth.currentUser ? auth.currentUser.delete().then(() => {
+                    auth.signOut().then(() => {
+                        AsyncStorage.clear().then(() => {
+                            dispatch(ResetStoredData())
+                            alert('Your account has been deleted by Admin!')
+                        })
+                    })
+                }) : null
+            } else {
+                let sellerStore = ev.val();
+                sellerStore = Object.assign({}, sellerStore, { uid: sellerUID });
+                console.log('sellerStore', sellerStore)
+                storeData(sellerStore, false);
+                redirect.navigate('sellerDashboard')
+            }
+        })
+
+
+    }
+}
+
+export function DeleteSeller(sellerUID) {
+    return dispatch => {
+        database.child(`stores/${sellerUID}`).remove().then(() => {
+            alert('Seller Successfully Deleted!')
         })
 
 

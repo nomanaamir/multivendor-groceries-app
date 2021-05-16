@@ -12,34 +12,32 @@ import {
 // import 'connect' to connect the redux with screens
 import { connect } from 'react-redux';
 // import middlewares functions
-import { SellerAccountSignIn } from '../../../Store/Middlewares/middlewares';
+import { AdminAccountSignIn } from '../../../Store/Middlewares/middlewares';
 
 const { width, height, fontScale } = Dimensions.get('window');
 import Button from '../../../shared/components/button/index';
 import TextInput from '../../../shared/components/input-field/index';
-function SellerSignIn(props) {
+function AdminSignIn(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const { navigation } = props;
 
-    const sellerSignIn = () => {
-        if (email === 'admin@admin.com') {
-            alert('This is for only sellers')
-            return
-        }
+    const adminSignIn = () => {
+
         if (
             email === '' ||
             password === ''
         ) {
             alert('All fields required!') // checking if input values fields are empty then alert will be show
         } else {
-            // calling seller sign in middlewares function
-            props.SellerAccountSignInAction(email, password)
+            if (email === 'admin@admin.com' && password === 'admin123') {
+                // calling seller sign in middlewares function
+                props.AdminAccountSignInAction()
+            } else {
+                alert('Permission denied!')
+            }
         }
-
-        setEmail('');
-        setPassword('')
     }
     return (
         // safe area and scroll view for responsive height and width for landscape mode
@@ -47,17 +45,17 @@ function SellerSignIn(props) {
             <ScrollView
                 contentInsetAdjustmentBehavior="automatic"
             >
-                <View style={styles.sellerSignInContainer}>
-                    <View style={styles.sellerSignInContainerHeader}>
+                <View style={styles.adminSignInContainer}>
+                    <View style={styles.adminSignInContainerHeader}>
                         <Text style={styles.heading}>
-                            Seller Sign In to Proceed
+                            Admin Sign In
                         </Text>
                         <Text style={styles.subHeading}>
-                            Please Sign in  to your seller account
+                            Please Sign in to grant access
                         </Text>
                     </View>
 
-                    <View style={styles.sellerSignInContainerBody}>
+                    <View style={styles.adminSignInContainerBody}>
                         <View style={styles.form}>
                             {/* TextInput Child component in which we are sending details of input field via props */}
                             <TextInput
@@ -65,7 +63,6 @@ function SellerSignIn(props) {
                                 keyboardType="email-address"
                                 secureTextEntry={false}
                                 onChangeText={(text) => setEmail(text)}
-                                value={email}
                             />
 
                             <TextInput
@@ -73,15 +70,13 @@ function SellerSignIn(props) {
                                 keyboardType="default"
                                 secureTextEntry={true}
                                 onChangeText={(text) => setPassword(text)}
-                                value={password}
-
                             />
                             {/* Button Child component in which we are sending details of button via props */}
                             <Button
-                                loader={props.isSellerSignedIn}
+                                loader={props.isAdminSignedIn}
                                 title={"Sign In"}
                                 color={'#687089'}
-                                onPress={() => sellerSignIn()}
+                                onPress={() => adminSignIn()}
                             />
                         </View>
                     </View>
@@ -96,7 +91,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#eff1f8',
         flex: 1,
     },
-    sellerSignInContainerHeader: {
+    adminSignInContainerHeader: {
 
         height: height / 2.5,
         alignItems: 'center',
@@ -109,7 +104,7 @@ const styles = StyleSheet.create({
         color: '#acb1c1',
         fontSize: fontScale * 14
     },
-    sellerSignInContainerBody: {
+    adminSignInContainerBody: {
         alignItems: 'center'
     },
     form: {
@@ -120,13 +115,13 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        isSellerSignedIn: state.root.is_seller_signed_in // seller sign in login boolean
+        isAdminSignedIn: state.root.is_admin_signed_in // seller sign in login boolean
     }
 }
 function mapDispatchToProps(dispatch) {
     return ({
-        SellerAccountSignInAction: (email, password) => { dispatch(SellerAccountSignIn(email, password)) }, // seller sign in middlewares function
+        AdminAccountSignInAction: () => { dispatch(AdminAccountSignIn()) }, // seller sign in middlewares function
 
     })
 }
-export default connect(mapStateToProps, mapDispatchToProps)(SellerSignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminSignIn);

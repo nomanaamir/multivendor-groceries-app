@@ -3,6 +3,7 @@ import { ActionTypes } from '../Actions/actions';
 const InitialState = {
     is_seller_signed_up: false,
     is_seller_signed_in: false,
+    is_admin_signed_in: false,
     navigation_props: {},
     current_seller_products: {},
     stores_list: {},
@@ -22,6 +23,10 @@ export default (state = InitialState, action) => {
 
         case ActionTypes.SELLER_SIGN_IN_SUCCESS:
             return ({ ...state, is_seller_signed_in: action.payload });
+
+        case ActionTypes.ADMIN_SIGN_IN_SUCCESS:
+            return ({ ...state, is_admin_signed_in: action.payload });
+
 
         case ActionTypes.GET_CURRENT_SELLER_PRODUCTS:
             return ({ ...state, current_seller_products: action.payload });

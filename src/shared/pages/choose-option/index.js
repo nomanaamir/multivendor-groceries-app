@@ -29,12 +29,15 @@ function ChooseOption(props) {
 
     }, []);
 
-    // checking if seller is already logged in then goto direct seller dashboard
+
     useEffect(() => {
-        if (props.isSeller) {
+        if (props.isUser && !props.isAdmin) { // checking if seller is already logged in then goto direct seller dashboard
             navigation.navigate('sellerDashboard')
+        } else if (props.isUser && props.isAdmin) { // checking if admin is already logged in then goto direct admin dashboard
+            navigation.navigate('adminDashboard')
+
         }
-    }, [props.isSeller]);
+    }, [props.isUser]);
     return (
         <SafeAreaView style={styles.optionsContainer}>
             <ScrollView
@@ -54,7 +57,7 @@ function ChooseOption(props) {
                     <View style={styles.chooseOptionContainerBody}>
 
                         {
-                            props.isSeller === false ? // checking if seller is not logged in then buttons will be shown
+                            props.isUser === false ? // checking if seller is not logged in then buttons will be shown
                                 <>
 
                                     <Button
@@ -73,7 +76,7 @@ function ChooseOption(props) {
                                         loader={false}
                                         title={"Administration Login"}
                                         color={'#687089'}
-                                        onPress={() => null}
+                                        onPress={() => navigation.navigate('adminSignIn')}
                                     />
                                 </>
                                 :
@@ -116,7 +119,9 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
 
     return {
-        isSeller: state.root.async_storage_data?.data?.isLoggedIn // getting boolean of logged in state from asyncStorage
+        isUser: state.root.async_storage_data?.data?.isLoggedIn, // getting boolean of user logged in state from asyncStorage
+        isAdmin: state.root.async_storage_data?.data?.isAdmin, // getting boolean of admin logged in state from asyncStorage
+
     }
 }
 function mapDispatchToProps(dispatch) {
