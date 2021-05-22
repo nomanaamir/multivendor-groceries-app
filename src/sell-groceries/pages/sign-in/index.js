@@ -4,9 +4,7 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    useColorScheme,
     View,
-    TouchableOpacity,
     Dimensions
 } from 'react-native';
 // import 'connect' to connect the redux with screens
@@ -14,7 +12,7 @@ import { connect } from 'react-redux';
 // import middlewares functions
 import { SellerAccountSignIn } from '../../../Store/Middlewares/middlewares';
 
-const { width, height, fontScale } = Dimensions.get('window');
+const { height, fontScale } = Dimensions.get('window');
 import Button from '../../../shared/components/button/index';
 import TextInput from '../../../shared/components/input-field/index';
 function SellerSignIn(props) {

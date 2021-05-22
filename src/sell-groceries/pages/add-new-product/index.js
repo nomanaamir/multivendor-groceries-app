@@ -4,12 +4,10 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    useColorScheme,
     View,
-    TouchableOpacity,
     Dimensions
 } from 'react-native';
-const { width, height, fontScale } = Dimensions.get('window')
+const { height, fontScale } = Dimensions.get('window')
 // import 'connect' to connect the redux with screens
 import { connect } from 'react-redux';
 // import middlewares functions
@@ -139,7 +137,6 @@ const styles = StyleSheet.create({
         fontSize: fontScale * 14
     },
     form: {
-        // padding: 10
         alignItems: 'center'
     },
     sellerSignUp: {

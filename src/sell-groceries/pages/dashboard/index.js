@@ -18,11 +18,6 @@ import Product from '../../../shared/components/product/index';
 function Dashboard(props) {
     const { navigation } = props;
 
-    // useEffect(() => {
-    //     if (props.sellerStore?.uid !== undefined) {
-    //         props.GetCurrentSellerProductsAction(props.sellerStore?.uid)
-    //     }
-    // }, [props.isLoading]);
     useEffect(() => {
         if (props.sellerStore?.uid !== undefined) {
             props.GetCurrentSellerProductsAction(props.sellerStore?.uid)

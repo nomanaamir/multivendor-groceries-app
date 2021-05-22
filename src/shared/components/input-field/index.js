@@ -1,12 +1,8 @@
 import React from 'react';
 import {
     StyleSheet,
-    Text,
-    TouchableOpacity,
-    Dimensions,
     TextInput
 } from 'react-native';
-const { width, height, fontScale } = Dimensions.get('window')
 
 function InputField(props) {
     const { placeholder, keyboardType, value, secureTextEntry, onChangeText } = props

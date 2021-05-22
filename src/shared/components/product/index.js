@@ -6,7 +6,7 @@ import {
     Dimensions,
     View
 } from 'react-native';
-const { width, height, fontScale } = Dimensions.get('window')
+const { height, fontScale } = Dimensions.get('window')
 
 function Product(props) {
     const { navigation, product, isBuyer } = props;
@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     productInfoName: {
         color: '#575757',
         fontSize: fontScale * 12,
-        // flex: 2
     },
     productInfoPrice: {
         color: '#64b2ee',

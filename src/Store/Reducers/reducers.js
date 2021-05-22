@@ -19,19 +19,19 @@ const InitialState = {
 export default (state = InitialState, action) => {
     switch (action.type) {
         case ActionTypes.SELLER_SIGN_UP_SUCCESS:
-            return ({ ...state, is_seller_signed_up: action.payload });
+            return ({ ...state, is_seller_signed_up: action.payload }); // save seller sign up boolean in reducer state
 
         case ActionTypes.SELLER_SIGN_IN_SUCCESS:
-            return ({ ...state, is_seller_signed_in: action.payload });
+            return ({ ...state, is_seller_signed_in: action.payload }); // save seller sign in boolean in reducer state
 
         case ActionTypes.ADMIN_SIGN_IN_SUCCESS:
-            return ({ ...state, is_admin_signed_in: action.payload });
+            return ({ ...state, is_admin_signed_in: action.payload }); // save admin sign in boolean in reducer state
 
 
         case ActionTypes.GET_CURRENT_SELLER_PRODUCTS:
-            return ({ ...state, current_seller_products: action.payload });
+            return ({ ...state, current_seller_products: action.payload }); // save current seller products in reducer state
 
-        case ActionTypes.GET_STORES:
+        case ActionTypes.GET_STORES: // filtering stores UID and saving in object with other store details
             let obj = {};
             let storesArray = []
             for (let key in action.payload.stores) {
@@ -40,16 +40,15 @@ export default (state = InitialState, action) => {
                     storesArray.push(obj)
                 }
             }
-            // console.log('storesArry', storesArray);
             return ({ ...state, stores_list: { stores: storesArray, loading: action.payload.loading } });
 
 
 
         case ActionTypes.NAVIGATION_PROPS:
-            return ({ ...state, navigation_props: action.payload });
+            return ({ ...state, navigation_props: action.payload }); // save navigation props in reducer state
 
         case ActionTypes.GET_DATA_FROM_ASYNCSTORAGE:
-            return ({ ...state, async_storage_data: action.payload })
+            return ({ ...state, async_storage_data: action.payload }) // save asyncstorage data in reducer state
 
         default:
             return state;

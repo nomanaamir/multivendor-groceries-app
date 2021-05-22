@@ -9,7 +9,7 @@ import {
     TextInput,
     Button
 } from 'react-native';
-const { height, width, fontScale } = Dimensions.get('window');
+const { fontScale } = Dimensions.get('window');
 function PaymentDetails(props) {
     const [cardNumber, setCardNumber] = useState(null);
     const [cardHolder, setCardHolder] = useState('');

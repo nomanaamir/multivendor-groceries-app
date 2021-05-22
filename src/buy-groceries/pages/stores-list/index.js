@@ -4,18 +4,15 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    useColorScheme,
     View,
     TouchableOpacity,
     TextInput,
     Dimensions,
     ActivityIndicator,
-    Button,
     LogBox
 } from 'react-native';
 import GetLocation from 'react-native-get-location';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import { Marker, Circle } from 'react-native-maps';
+
 // import icons
 import Feather from 'react-native-vector-icons/Feather';
 

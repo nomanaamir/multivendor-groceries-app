@@ -5,7 +5,6 @@ import {
     Dimensions,
     SafeAreaView,
     ScrollView,
-    TextInput,
     Text
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';

@@ -8,17 +8,9 @@
 
 import React, { useEffect } from 'react';
 import {
-    SafeAreaView,
-    ScrollView,
-    Text,
-    useColorScheme,
-    View,
     Button
 } from 'react-native';
 
-import {
-    Colors,
-} from 'react-native/Libraries/NewAppScreen';
 // import 'connect' to connect the redux with screens
 import { connect } from 'react-redux';
 // import middlewares functions
@@ -82,7 +74,6 @@ function SellerDashboard(props) {
 
 
 function mapStateToProps(state) {
-    console.log('Redux State - Seller Dashboard Screen', state.root.async_storage_data?.data?.store)
     return {
         sellerStore: state.root.async_storage_data?.data?.store
     }

@@ -6,7 +6,7 @@ import {
     Dimensions,
     ActivityIndicator
 } from 'react-native';
-const { width, height, fontScale } = Dimensions.get('window')
+const { height, fontScale } = Dimensions.get('window')
 
 function Button(props) {
     const { title, color, loader, onPress } = props

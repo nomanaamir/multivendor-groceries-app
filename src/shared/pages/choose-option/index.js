@@ -4,13 +4,11 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    useColorScheme,
     View,
-    TouchableOpacity,
     Dimensions,
     ActivityIndicator
 } from 'react-native';
-const { width, height, fontScale } = Dimensions.get('window')
+const { height, fontScale } = Dimensions.get('window')
 // import middlewares function
 import { setNavigationProps, RetrieveDataAssyncStorage } from '../../../Store/Middlewares/middlewares';
 

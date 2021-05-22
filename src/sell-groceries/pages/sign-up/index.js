@@ -4,7 +4,6 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    useColorScheme,
     View,
     TouchableOpacity,
     Dimensions
@@ -14,7 +13,7 @@ import { connect } from 'react-redux';
 // import middlewares functions
 import { SellerAccountSignUp } from '../../../Store/Middlewares/middlewares';
 
-const { width, height, fontScale } = Dimensions.get('window')
+const { height, fontScale } = Dimensions.get('window')
 import TextInput from '../../../shared/components/input-field/index';
 import Button from '../../../shared/components/button/index';
 
@@ -65,12 +64,6 @@ function SellerSignUp(props) {
                 props.SellerAccountSignUpAction(email, password, seller) // calling Seller account sign in middleware function
             }
         }
-        console.log('email', email);
-        console.log('password', password);
-        console.log('confirmPassword', confirmPassword);
-        console.log('storeName', storeName);
-        console.log('completeAddress', completeAddress);
-        console.log('openUntil', openUntil);
     }
     return (
         <SafeAreaView style={styles.container}>
@@ -203,7 +196,6 @@ const styles = StyleSheet.create({
         fontSize: fontScale * 15
     },
     form: {
-        // padding: 10
         alignItems: 'center'
     },
     sellerSignUp: {

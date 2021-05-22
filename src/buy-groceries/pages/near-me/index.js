@@ -17,7 +17,7 @@ const { height } = Dimensions.get('window');
 function NearMe(props) {
     const [buyerLocation, setBuyerLocation] = useState({})
 
-    const { navigation, route } = props;
+    const { route } = props;
     const { currentLocation } = route.params; // getting current location from route params
 
 
@@ -38,7 +38,7 @@ function NearMe(props) {
         <View style={styles.container}>
 
             {
-               buyerLocation?.latitude !== undefined && buyerLocation?.longitude !== undefined && props.storesList !== undefined && props.storesList.length > 0 ?
+                buyerLocation?.latitude !== undefined && buyerLocation?.longitude !== undefined && props.storesList !== undefined && props.storesList.length > 0 ?
                     <MapView
                         // key={index}
                         provider={PROVIDER_GOOGLE}
